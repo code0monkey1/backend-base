@@ -20,6 +20,20 @@ export class UserService {
         return user;
     }
 
+    async deleteById(userId: string) {
+        const user = await this.userRepository.findById(userId);
+
+        if (!user) {
+            const error = createHttpError(
+                404,
+                `User with ${userId} does not exist`,
+            );
+            throw error;
+        }
+
+        await this.userRepository.deleteById(userId);
+    }
+
     async findAll() {
         const users = await this.userRepository.findAll();
         return users.map((user) => {

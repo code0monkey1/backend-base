@@ -1,10 +1,11 @@
-// create mongoose model for user
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { Schema, model } from "mongoose";
 export interface UserType {
     name: string;
     email: string;
     hashedPassword: string;
 }
+
 const UserSchema = new Schema(
     {
         name: {

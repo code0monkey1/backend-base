@@ -11,6 +11,9 @@ export class RefreshTokenRepository {
             user: userId,
         });
     }
+    async deleteAllRefreshTokensOfUser(userId: string) {
+        return await RefreshToken.deleteMany({ user: userId });
+    }
 
     async findById(id: string) {
         return await RefreshToken.findById(id);

@@ -103,6 +103,8 @@ export class AuthController {
                 userId,
             );
 
+            // remove refresh token from db
+
             //remove refreshToken and accessToken from response cookies
             res.clearCookie("accessToken");
             res.clearCookie("refreshToken");

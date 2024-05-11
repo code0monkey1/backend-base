@@ -2,9 +2,13 @@ import { NextFunction, Request, Response } from "express";
 import createHttpError from "http-errors";
 import { UserService } from "../../services/UserService";
 import { UserType } from "../../models/user.model";
+import { TokenService } from "../../services/TokenService";
 
 export class UserController {
-    constructor(private readonly userService: UserService) {}
+    constructor(
+        private readonly userService: UserService,
+        private readonly tokenService: TokenService,
+    ) {}
 
     findAll = async (req: Request, res: Response, next: NextFunction) => {
         try {
@@ -12,6 +16,29 @@ export class UserController {
             res.status(200).json(users);
         } catch (error) {
             next(error);
+        }
+    };
+
+    deleteById = async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const authRequest = req as AuthRequest;
+
+            if (req.params.userId !== authRequest.auth.userId) {
+                const error = createHttpError(401, "Unauthorized");
+                return next(error);
+            }
+
+            await this.userService.deleteById(req.params.userId);
+
+            // delete all refreshTokens of user :
+
+            await this.tokenService.deleteAllRefreshTokensOfUser(
+                req.params.userId,
+            );
+
+            res.status(204).json();
+        } catch (err) {
+            next(err);
         }
     };
 

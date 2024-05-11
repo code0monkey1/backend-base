@@ -52,6 +52,9 @@ export class TokenService {
         return token;
     }
 
+    async deleteAllRefreshTokensOfUser(userId: string) {
+        await this.refreshTokenRepository.deleteAllRefreshTokensOfUser(userId);
+    }
     async persistRefreshToken(user: string, years_to_persist = 1) {
         //persist jwt  , should have user and expiry time
         const YEARS = 1000 * 60 * 60 * 24 * 365 * years_to_persist;
