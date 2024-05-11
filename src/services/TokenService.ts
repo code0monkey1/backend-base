@@ -15,7 +15,7 @@ export class TokenService {
         res.cookie("accessToken", token, {
             domain: "localhost",
             sameSite: "strict",
-            maxAge: 1000 * 60 * 60 * 24 * 365, // 1 year
+            maxAge: 1000 * 60 * 60, // 1 hour
             httpOnly: true, // this ensures that the cookie can be only taken by server
         });
     }

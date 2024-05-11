@@ -5,7 +5,7 @@ export interface RefreshTokenType {
     expiresAt: Date;
 }
 
-const RefreshToken = new Schema(
+const RefreshTokenSchema = new Schema(
     {
         user: { type: Schema.Types.ObjectId, ref: "User", required: true },
         expiresAt: { type: Date, required: true },
@@ -13,4 +13,6 @@ const RefreshToken = new Schema(
     { timestamps: true },
 );
 
-export default model("RefreshToken", RefreshToken);
+const RefreshToken = model("RefreshToken", RefreshTokenSchema);
+
+export default RefreshToken;

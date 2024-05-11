@@ -42,6 +42,36 @@ export class UserController {
         }
     };
 
+    findById = async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const authRequest = req as AuthRequest;
+
+            if (!isValidObjectId(req.params.userId)) {
+                const error = createHttpError(400, "userId is of invalid type");
+                return next(error);
+            }
+
+            if (req.params.userId !== authRequest.auth.userId) {
+                const error = createHttpError(401, "Unauthorized");
+                return next(error);
+            }
+
+            const user = await this.userService.findById(req.params.userId);
+
+            if (!user) {
+                const error = createHttpError(
+                    404,
+                    `User with ${req.params.userId} does not exist`,
+                );
+                return next(error);
+            }
+
+            res.status(200).json(user);
+        } catch (error) {
+            next(error);
+        }
+    };
+
     updateById = async (req: Request, res: Response, next: NextFunction) => {
         try {
             //extract the userId from auth and compare it with the userId in the request body

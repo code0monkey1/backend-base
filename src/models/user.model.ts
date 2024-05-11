@@ -40,5 +40,6 @@ UserSchema.set("toJSON", {
         delete ret.hashedPassword;
     },
 });
+const User = model<UserType>("User", UserSchema);
 
-export default model("User", UserSchema);
+export default User;

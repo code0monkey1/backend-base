@@ -25,7 +25,7 @@ describe("DELETE /:userId", () => {
         await db.disconnect();
     });
 
-    beforeEach(async () => {
+    afterEach(async () => {
         await User.deleteMany({});
         await RefreshToken.deleteMany({});
     });

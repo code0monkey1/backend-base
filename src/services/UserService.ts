@@ -49,6 +49,7 @@ export class UserService {
 
     async findById(userId: string) {
         const user = await this.userRepository.findById(userId);
+
         return user;
     }
 

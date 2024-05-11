@@ -5,11 +5,12 @@ import { UserRepository } from "../../src/repositories/UserRepository";
 import { Config } from "../../src/config";
 import { hash } from "bcrypt";
 import { db } from "../../src/utils/db";
-let userRepository: UserRepository;
 import User from "../../src/models/user.model";
 import RefreshToken from "../../src/models/refresh.token.model";
 const api = supertest(app);
 const BASE_URL = "/auth/self";
+
+let userRepository: UserRepository;
 
 describe("GET /auth/self", () => {
     beforeEach(async () => {

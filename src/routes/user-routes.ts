@@ -11,6 +11,8 @@ const tokenService = makeTokenService();
 
 const userController = new UserController(userService, tokenService);
 
+route.get("/:userId", authenticate, userController.findById);
+
 route.patch("/:userId", authenticate, userController.updateById);
 
 route.get("/", authenticate, userController.findAll);

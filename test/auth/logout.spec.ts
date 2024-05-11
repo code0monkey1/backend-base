@@ -19,7 +19,7 @@ describe("POST /auth/logout", () => {
         await db.connect();
     });
 
-    beforeEach(async () => {
+    afterEach(async () => {
         // delete all users created
         await User.deleteMany({});
         await RefreshToken.deleteMany({});

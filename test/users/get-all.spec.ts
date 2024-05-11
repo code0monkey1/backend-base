@@ -23,7 +23,7 @@ describe("GET /users", () => {
         await db.disconnect();
     });
 
-    beforeEach(async () => {
+    afterEach(async () => {
         await User.deleteMany({});
     });
 

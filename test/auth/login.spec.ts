@@ -16,7 +16,7 @@ describe("POST /auth/login", () => {
         userRepository = new UserRepository();
     });
 
-    beforeEach(async () => {
+    afterEach(async () => {
         // delete all users created
         await User.deleteMany({});
         await RefreshToken.deleteMany({});
