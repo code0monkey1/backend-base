@@ -21,7 +21,7 @@
 -   [x] User Logout
 -   [x] User Profile Update
 -   [x] Get all users
--   [ ] Delete User
--   [ ] User self endpoint
+-   [x] Delete User
+-   [x] User self endpoint
 -   [ ] Refresh Token
 -   [ ] Get User By Id

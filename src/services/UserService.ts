@@ -9,6 +9,10 @@ export class UserService {
         private readonly userRepository: UserRepository,
     ) {}
 
+    async findUserById(userId: string) {
+        const user = await this.userRepository.findById(userId);
+        return user;
+    }
     async createUser(name: string, email: string, password: string) {
         const hashedPassword = await this.encryptionService.hash(password);
 

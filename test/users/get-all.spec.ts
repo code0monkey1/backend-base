@@ -53,8 +53,6 @@ describe("GET /users", () => {
 
             expect(users.body.length).toBe(1);
 
-            console.log(JSON.stringify(users.body, null, 2));
-
             expect(users.body[0].name).toBe(user.name);
         });
     });

@@ -9,6 +9,24 @@ export class AuthController {
         private readonly tokenService: TokenService,
         private readonly userService: UserService,
     ) {}
+
+    self = async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            // get userId from cookie
+            const { userId } = (req as AuthRequest).auth;
+
+            const user = await this.userService.findUserById(userId);
+
+            if (!user) {
+                throw createHttpError(404, "User not found");
+            }
+
+            res.json(user);
+        } catch (error) {
+            next(error);
+        }
+    };
+
     signup = async (req: Request, res: Response, next: NextFunction) => {
         try {
             const { name, email, password } = req.body as Request & {

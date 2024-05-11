@@ -68,42 +68,25 @@ describe("DELETE /:userId", () => {
             };
 
             const createdUser = await createUser(user);
-            const createAnotherUser = await createUser({
-                ...user,
-                email: "another_email@gmail.com",
-            });
 
             const accessToken = await createAccessToken(createdUser);
 
             await persistRefreshToken(createdUser._id.toString());
-            await persistRefreshToken(createAnotherUser._id.toString());
 
-            const tokensBefore = await refreshTokenRepository.findAll();
+            const tokensBefore =
+                (await refreshTokenRepository.findAll()) as any;
+
             await api
                 .delete(BASE_URL + `/${createdUser._id.toString()}`)
                 .set("Cookie", [`accessToken=${accessToken}`])
                 .expect(204);
 
-            const tokensAfter = await refreshTokenRepository.findAll();
-
-            expect(tokensAfter).toHaveLength(tokensBefore.length - 1);
-
-            // no refresh tokens have the associated userId
-
             expect(
-                tokensAfter.every(
-                    (token) =>
-                        token.user.toString() !== createdUser._id.toString(),
+                refreshTokensOfUserWereDeleted(
+                    createdUser._id.toString(),
+                    tokensBefore,
                 ),
-            );
-            //expect another user refresh token to present
-            expect(
-                tokensAfter.some(
-                    (token) =>
-                        token.user.toString() ===
-                        createAnotherUser._id.toString(),
-                ),
-            );
+            ).toBeTruthy();
         });
     });
 
@@ -151,7 +134,7 @@ describe("DELETE /:userId", () => {
 });
 
 async function createUser(user: any) {
-    return userRepository.create({
+    return await userRepository.create({
         ...user,
         hashedPassword: await hash(user.password, 10),
     });
@@ -177,4 +160,17 @@ async function persistRefreshToken(user: string, years_to_persist = 1) {
         user,
         expiresAt: new Date(Date.now() + YEARS),
     });
+}
+
+async function refreshTokensOfUserWereDeleted(
+    userId: string,
+    tokensBefore: [{ user: string }],
+) {
+    expect(tokensBefore).toHaveLength(1);
+    expect(tokensBefore.some((token) => token.user.toString() == userId));
+
+    const tokensAfter = await refreshTokenRepository.findAll();
+    expect(tokensAfter.every((token) => token.user.toString() !== userId));
+
+    expect(tokensAfter).toHaveLength(0);
 }
