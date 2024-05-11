@@ -20,6 +20,11 @@ export class UserService {
         return user;
     }
 
+    async findAll() {
+        const users = await this.userRepository.findAll();
+        return users;
+    }
+
     async findById(userId: string) {
         const user = await this.userRepository.findById(userId);
         return user;

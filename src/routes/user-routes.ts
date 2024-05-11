@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
 import { Router } from "express";
 import { UserController } from "../controllers/user/UserController";
 import authenticate from "../middleware/authenticate";
@@ -7,7 +8,8 @@ const route = Router();
 const userService = makeUserService();
 const userController = new UserController(userService);
 
-// eslint-disable-next-line @typescript-eslint/no-misused-promises
 route.patch("/:userId", authenticate, userController.updateById);
+
+route.get("/", authenticate, userController.findAll);
 
 export default route;

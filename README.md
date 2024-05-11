@@ -19,5 +19,10 @@
 -   [x] User Registration
 -   [x] User Login
 -   [x] User Logout
+-   [x] User Profile Update
 -   [ ] User self endpoint
 -   [ ] Refresh Token
+-   [ ] Password Reset
+-   [ ] Password Update
+-   [ ] User Profile Delete
+-   [ ] User Profile View

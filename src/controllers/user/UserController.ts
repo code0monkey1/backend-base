@@ -6,6 +6,15 @@ import { UserType } from "../../models/user.model";
 export class UserController {
     constructor(private readonly userService: UserService) {}
 
+    findAll = async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const users = await this.userService.findAll();
+            res.status(200).json(users);
+        } catch (error) {
+            next(error);
+        }
+    };
+
     updateById = async (req: Request, res: Response, next: NextFunction) => {
         try {
             //extract the userId from auth and compare it with the userId in the request body
