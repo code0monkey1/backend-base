@@ -35,20 +35,25 @@ describe("GET /users", () => {
         it("should return a list of users", async () => {
             // insert single user
 
+            //arrange
             const user = {
                 name: "test",
                 email: "test@gmail.com",
                 password: "testing_right",
             };
+            //act
 
             await createUser(user);
 
+            //assert
             const users = await api
                 .get(BASE_URL)
                 .set("Cookie", [`accessToken=${accessToken}`])
                 .expect(200);
 
             expect(users.body.length).toBe(1);
+
+            console.log(JSON.stringify(users.body, null, 2));
 
             expect(users.body[0].name).toBe(user.name);
         });

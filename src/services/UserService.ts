@@ -22,7 +22,11 @@ export class UserService {
 
     async findAll() {
         const users = await this.userRepository.findAll();
-        return users;
+        return users.map((user) => {
+            return {
+                name: user.name,
+            };
+        });
     }
 
     async findById(userId: string) {
