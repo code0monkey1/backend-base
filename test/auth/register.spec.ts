@@ -8,10 +8,10 @@ import { isJwt } from "../../src/utils";
 import { UserRepository } from "../../src/repositories/UserRepository";
 
 const api = supertest(app);
-const BASE_URL = "/auth/signup";
+const BASE_URL = "/auth/register";
 
 let userRepository: UserRepository;
-describe("POST /auth/signup", () => {
+describe("POST /auth/register", () => {
     beforeAll(async () => {
         await db.connect();
         userRepository = new UserRepository();

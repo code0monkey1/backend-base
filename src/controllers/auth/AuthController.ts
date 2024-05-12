@@ -27,7 +27,7 @@ export class AuthController {
         }
     };
 
-    signup = async (req: Request, res: Response, next: NextFunction) => {
+    register = async (req: Request, res: Response, next: NextFunction) => {
         try {
             const { name, email, password } = req.body as Request & {
                 name: string;
@@ -128,6 +128,43 @@ export class AuthController {
             res.clearCookie("refreshToken");
 
             res.end();
+        } catch (e) {
+            next(e);
+        }
+    };
+
+    refresh = async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            // delete previous refresh token
+            const { refreshTokenId, userId } = (req as AuthRequest).auth;
+
+            await this.tokenService.deleteRefreshTokenOfUser(
+                refreshTokenId,
+                userId,
+            );
+
+            // create new refreshToken
+            const user = await this.userService.findUserById(userId);
+
+            if (!user) {
+                const error = createHttpError(404, "User not found");
+                throw error;
+            }
+
+            const jwtPayload = {
+                userId: user._id.toString(),
+            };
+
+            //create new accessToken
+
+            this.tokenService.setAccessToken(res, jwtPayload);
+            await this.tokenService.setRefreshToken(
+                res,
+                jwtPayload,
+                user._id.toString(),
+            );
+
+            res.json();
         } catch (e) {
             next(e);
         }

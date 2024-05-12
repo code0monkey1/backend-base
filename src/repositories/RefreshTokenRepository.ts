@@ -19,6 +19,13 @@ export class RefreshTokenRepository {
         return await RefreshToken.findById(id);
     }
 
+    async findByRefreshIdAndUserId(refreshTokenId: string, userId: string) {
+        return await RefreshToken.findOne({
+            _id: refreshTokenId,
+            user: userId,
+        });
+    }
+
     async findAll() {
         return await RefreshToken.find();
     }
