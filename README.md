@@ -24,4 +24,4 @@
 -   [x] Delete User
 -   [x]User self endpoint
 -   [x] Get User By Id
--   [ ] Refresh Token
+-   [x] Refresh Token
