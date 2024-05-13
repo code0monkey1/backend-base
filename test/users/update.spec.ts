@@ -44,13 +44,13 @@ describe("UPDATE /users/:userId", () => {
 
         it("should return 401 if user with userId in accessToken is not same as the param userId ", async () => {
             // arrange
-            const userId = "123";
+            const userId = "663f0f5379ab100cdd57882e";
             const accessToken = await getAccessToken(userId);
             //act
 
             //assert
             await api
-                .patch(`${BASE_URL}/124`)
+                .patch(`${BASE_URL}/6641c748e2b52be16daf57fd`)
                 .set("Cookie", [`accessToken=${accessToken}`])
                 .send({
                     username: "test",
